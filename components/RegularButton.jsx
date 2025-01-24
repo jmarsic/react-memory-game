@@ -1,5 +1,5 @@
-const RegularButton = ({ children }) => {
-  return <button>{children}</button>;
+const RegularButton = ({ children, handleClick }) => {
+  return <button onClick={handleClick}>{children}</button>;
 };
 
 export default RegularButton;
