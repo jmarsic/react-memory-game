@@ -1,22 +1,12 @@
-const MemoryCard = ({ handleFlip }) => {
-  const emojiArray = [
-    "🦦",
-    "🐢",
-    "🦔",
-    "🐢",
-    "🦥",
-    "🦦",
-    "🦣",
-    "🦣",
-    "🦥",
-    "🦔",
-  ];
+import { decodeEntity } from "html-entities";
 
-  const emojiElement = emojiArray.map((emoji, index) => {
+const MemoryCard = ({ handleFlip, emojis }) => {
+
+  const emojiElement = emojis.map((emoji, index) => {
     return (
       <li key={index} className="card-list-item">
         <button onClick={handleFlip} className="card">
-          {emoji}
+          {decodeEntity(`${emoji.htmlCode}`)}
         </button>
       </li>
     );

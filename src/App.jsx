@@ -5,6 +5,7 @@ import MemoryCard from "../components/MemoryCard.jsx";
 
 const App = () => {
   const [isGameRunning, setIsGameRunning] = useState(false);
+  const [emojisData, setEmojisData] = useState([]);
 
   const startGame = async () => {
     try {
@@ -19,13 +20,15 @@ const App = () => {
 
       const data = await response.json();
 
-      console.log(data);
+      const randomIndencies = generateRandomIndencies();
 
-      const emojiArr = data.slice(0, 5);
+      const randomEmojis = randomIndencies.map((index) => data[index]);
 
-      console.log(emojiArr);
+      const emojisArray = [...randomEmojis, ...randomEmojis];
 
-      generateRandomIndencies();
+      const shuffledEmojisArray = shuffleEmojis(emojisArray);
+
+      setEmojisData(shuffledEmojisArray);
 
       setIsGameRunning(true);
     } catch (err) {
@@ -41,7 +44,15 @@ const App = () => {
         randomIndencies.push(generatedNumber);
       }
     }
-    console.log(randomIndencies);
+    return randomIndencies;
+  };
+
+  const shuffleEmojis = (arr) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
   };
 
   const flipCard = () => {
@@ -52,7 +63,9 @@ const App = () => {
     <main className="main">
       <h1 className="main-heading">MEMORY GAME</h1>
       {!isGameRunning && <Form handleSubmit={startGame} />}
-      {isGameRunning && <MemoryCard handleFlip={flipCard} />}
+      {isGameRunning && (
+        <MemoryCard handleFlip={flipCard} emojis={emojisData} />
+      )}
     </main>
   );
 };
