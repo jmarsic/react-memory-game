@@ -110,12 +110,21 @@ body {
   width: 80px;
   height: 80px;
   font-size: var(--fs-emoji);
-  border: 3px solid var(--clr-neutral-900);
+  border: 3px solid var(--clr-neutral-700);
   border-radius: 8px;
   transition: transform 0.2s ease;
 }
 
 .card:hover {
   transform: scale(1.1);
-  border: 3px solid var(--clr-neutral-400);
+  border: 3px solid var(--clr-neutral-900);
+  cursor: pointer;
+}
+
+.matched {
+  background-color: var(--clr-neutral-400);
+}
+
+.selected {
+  border: 3px solid var(--clr-primary-900);
 }

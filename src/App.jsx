@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Form from "../components/Form.jsx";
 import MemoryCard from "../components/MemoryCard.jsx";
@@ -6,6 +6,26 @@ import MemoryCard from "../components/MemoryCard.jsx";
 const App = () => {
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [emojisData, setEmojisData] = useState([]);
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [matchedCards, setMatchedCard] = useState([]);
+  const [isGameOver, setIsGameOver] = useState(false);
+
+
+  useEffect(() => {
+    if (selectedCards.length === 2) {
+      if (selectedCards[0].name === selectedCards[1].name) {
+        console.log("Match");
+        setMatchedCard((prevMatch) => [...prevMatch, ...selectedCards]);
+      }
+    }
+  }, [selectedCards]);
+
+  useEffect(() => {
+    if (emojisData.length && emojisData.length === matchedCards.length) {
+      console.log("Well done, you match all cards");
+      setIsGameOver(true);
+    }
+  }, [matchedCards]);
 
   const startGame = async () => {
     try {
@@ -55,8 +75,18 @@ const App = () => {
     return arr;
   };
 
-  const flipCard = () => {
-    console.log("Card flipped");
+  const flipCard = (name, index) => {
+    // console.log(`Card with name '${name}' at index [${index}] was clicked.`);
+
+    const previousCardSelected = selectedCards.find(
+      (card) => card.index === index
+    );
+
+    if (!previousCardSelected && selectedCards.length < 2) {
+      setSelectedCards((prevCard) => [...prevCard, { name, index }]);
+    } else if (!previousCardSelected && selectedCards.length === 2) {
+      setSelectedCards([{ name, index }]);
+    }
   };
 
   return (
@@ -64,7 +94,12 @@ const App = () => {
       <h1 className="main-heading">MEMORY GAME</h1>
       {!isGameRunning && <Form handleSubmit={startGame} />}
       {isGameRunning && (
-        <MemoryCard handleFlip={flipCard} emojis={emojisData} />
+        <MemoryCard
+          handleFlip={flipCard}
+          emojis={emojisData}
+          selectedCards={selectedCards}
+          matchedCards={matchedCards}
+        />
       )}
     </main>
   );
