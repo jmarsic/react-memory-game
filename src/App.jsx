@@ -3,19 +3,20 @@ import { useState, useEffect } from "react";
 import Form from "../components/Form.jsx";
 import MemoryCard from "../components/MemoryCard.jsx";
 import AssistiveTechInfo from "../components/AssistiveTechInfo.jsx";
+import GameOver from "../components/GameOver.jsx";
 
 const App = () => {
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [emojisData, setEmojisData] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
-  const [matchedCards, setMatchedCard] = useState([]);
+  const [matchedCards, setMatchedCards] = useState([]);
   const [areAllCardsMatched, setAreAllCardsMatched] = useState(false);
 
   useEffect(() => {
     if (selectedCards.length === 2) {
       if (selectedCards[0].name === selectedCards[1].name) {
         console.log("Match");
-        setMatchedCard((prevMatch) => [...prevMatch, ...selectedCards]);
+        setMatchedCards((prevMatch) => [...prevMatch, ...selectedCards]);
       }
     }
   }, [selectedCards]);
@@ -85,6 +86,13 @@ const App = () => {
     }
   };
 
+  const resetGame = () => {
+    setIsGameRunning(false);
+    setSelectedCards([]);
+    setMatchedCards([]);
+    setAreAllCardsMatched(false);
+  };
+
   return (
     <main className="main">
       <h1 className="main-heading">MEMORY GAME</h1>
@@ -95,6 +103,7 @@ const App = () => {
           emojisData={emojisData}
         />
       )}
+      {areAllCardsMatched && <GameOver handleClick={resetGame} />}
       {isGameRunning && (
         <MemoryCard
           handleFlip={flipCard}
