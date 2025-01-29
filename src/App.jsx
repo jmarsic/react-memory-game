@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 
 import Form from "../components/Form.jsx";
 import MemoryCard from "../components/MemoryCard.jsx";
+import AssistiveTechInfo from "../components/AssistiveTechInfo.jsx";
 
 const App = () => {
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [emojisData, setEmojisData] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
   const [matchedCards, setMatchedCard] = useState([]);
-  const [isGameOver, setIsGameOver] = useState(false);
-
+  const [areAllCardsMatched, setAreAllCardsMatched] = useState(false);
 
   useEffect(() => {
     if (selectedCards.length === 2) {
@@ -23,7 +23,7 @@ const App = () => {
   useEffect(() => {
     if (emojisData.length && emojisData.length === matchedCards.length) {
       console.log("Well done, you match all cards");
-      setIsGameOver(true);
+      setAreAllCardsMatched(true);
     }
   }, [matchedCards]);
 
@@ -78,13 +78,9 @@ const App = () => {
   const flipCard = (name, index) => {
     // console.log(`Card with name '${name}' at index [${index}] was clicked.`);
 
-    const previousCardSelected = selectedCards.find(
-      (card) => card.index === index
-    );
-
-    if (!previousCardSelected && selectedCards.length < 2) {
+    if (selectedCards.length < 2) {
       setSelectedCards((prevCard) => [...prevCard, { name, index }]);
-    } else if (!previousCardSelected && selectedCards.length === 2) {
+    } else if (selectedCards.length === 2) {
       setSelectedCards([{ name, index }]);
     }
   };
@@ -93,6 +89,12 @@ const App = () => {
     <main className="main">
       <h1 className="main-heading">MEMORY GAME</h1>
       {!isGameRunning && <Form handleSubmit={startGame} />}
+      {isGameRunning && !areAllCardsMatched && (
+        <AssistiveTechInfo
+          matchedCards={matchedCards}
+          emojisData={emojisData}
+        />
+      )}
       {isGameRunning && (
         <MemoryCard
           handleFlip={flipCard}
