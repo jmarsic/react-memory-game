@@ -10,8 +10,14 @@ const GameOver = ({ handleClick }) => {
   }, []);
 
   return (
-    <div className="game-over-container" ref={divRef} tabIndex={-1}>
-      <p className="game-over-text">You've matched all the memory cards!</p>
+    <div
+      className="status-message-container"
+      aria-live="polite"
+      aria-atomic="true"
+      ref={divRef}
+      tabIndex={-1}
+    >
+      <p className="status-message">You've matched all the memory cards!</p>
       <ReagularButton handleClick={handleClick}>Play again</ReagularButton>
     </div>
   );
