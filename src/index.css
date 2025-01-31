@@ -178,3 +178,28 @@ body {
   color: var(--clr-neutral-900);
   margin-bottom: 16px;
 }
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.selection-wrapper {
+  margin-bottom: 40px;
+}
+
+.section-label {
+  font-size: var(--fs-paragraph);
+}
+
+.form-category-selection {
+  width: 200px;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+option {
+  text-align: center;
+}

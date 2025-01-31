@@ -7,6 +7,12 @@ import GameOver from "../components/GameOver.jsx";
 import ErrorCard from "../components/ErrorCard.jsx";
 
 const App = () => {
+  const initialFormData = {
+    category: "animals-and-nature",
+    number: 10,
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [emojisData, setEmojisData] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
@@ -14,7 +20,9 @@ const App = () => {
   const [areAllCardsMatched, setAreAllCardsMatched] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  console.log(isError);
+  // todo
+  // fix formData {name: 'value'}
+  console.log(formData);
 
   useEffect(() => {
     if (selectedCards.length === 2) {
@@ -32,12 +40,25 @@ const App = () => {
     }
   }, [matchedCards]);
 
+  const handleFormChange = (e) => {
+    e.preventDefault();
+    console.log(e.target.name);
+    console.log(e.target.value);
+
+    const { name, value } = e.target;
+    
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const startGame = async () => {
     try {
       // throw new Error("Throw test error!");
 
       const response = await fetch(
-        "https://emojihub.yurace.pro/api/all/category/animals-and-nature"
+        `https://emojihub.yurace.pro/api/all/category/${formData.category}`
       );
       if (!response.ok) {
         throw new Error(
@@ -48,8 +69,10 @@ const App = () => {
       const data = await response.json();
 
       const randomIndencies = generateRandomIndencies();
+      console.log(randomIndencies);
 
       const randomEmojis = randomIndencies.map((index) => data[index]);
+      console.log(randomEmojis);
 
       const emojisArray = [...randomEmojis, ...randomEmojis];
 
@@ -66,7 +89,7 @@ const App = () => {
 
   const generateRandomIndencies = () => {
     const randomIndencies = [];
-    while (randomIndencies.length < 5) {
+    while (randomIndencies.length < formData.number / 2) {
       const generatedNumber = Math.floor(Math.random() * 107);
       if (!randomIndencies.includes(generatedNumber)) {
         randomIndencies.push(generatedNumber);
@@ -107,7 +130,9 @@ const App = () => {
   return (
     <main className="main">
       <h1 className="main-heading">MEMORY GAME</h1>
-      {!isGameRunning && !isError && <Form handleSubmit={startGame} />}
+      {!isGameRunning && !isError && (
+        <Form handleSubmit={startGame} handleChange={handleFormChange} />
+      )}
       {isError && <ErrorCard handleClick={resetError} />}
       {isGameRunning && !areAllCardsMatched && (
         <AssistiveTechInfo
