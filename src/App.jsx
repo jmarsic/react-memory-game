@@ -20,8 +20,6 @@ const App = () => {
   const [areAllCardsMatched, setAreAllCardsMatched] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  // todo
-  // fix formData {name: 'value'}
   console.log(formData);
 
   useEffect(() => {
@@ -41,15 +39,11 @@ const App = () => {
   }, [matchedCards]);
 
   const handleFormChange = (e) => {
-    e.preventDefault();
-    console.log(e.target.name);
-    console.log(e.target.value);
-
     const { name, value } = e.target;
-    
+
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "number" ? Number(value) : value,
     }));
   };
 

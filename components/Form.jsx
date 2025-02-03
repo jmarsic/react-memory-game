@@ -3,7 +3,10 @@ import RegularButton from "./RegularButton";
 const Form = ({ handleSubmit, handleChange }) => {
   return (
     <div className="form-container">
-      <form className="status-message-container">
+      <form
+        className="status-message-container"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <div className="selection-wrapper">
           <label htmlFor="category" className="section-label">
             Which category you prefer:{" "}
