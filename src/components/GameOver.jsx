@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import ReagularButton from "./RegularButton";
+import ReagularButton from "./RegularButton.jsx";
 
 const GameOver = ({ handleClick }) => {
   const divRef = useRef(null);

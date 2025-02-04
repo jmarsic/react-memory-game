@@ -1,4 +1,4 @@
-import EmojiButton from "./EmojiButton";
+import EmojiButton from "./EmojiButton.jsx";
 
 const MemoryCard = ({ handleFlip, emojis, selectedCards, matchedCards }) => {
   const cardElement = emojis.map((emoji, index) => {

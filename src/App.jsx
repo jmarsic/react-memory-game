@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-import Form from "../components/Form.jsx";
-import MemoryCard from "../components/MemoryCard.jsx";
-import AssistiveTechInfo from "../components/AssistiveTechInfo.jsx";
-import GameOver from "../components/GameOver.jsx";
-import ErrorCard from "../components/ErrorCard.jsx";
+import Form from "./components/Form.jsx";
+import MemoryCard from "./components/MemoryCard.jsx";
+import AssistiveTechInfo from "./components/AssistiveTechInfo.jsx";
+import GameOver from "./components/GameOver.jsx";
+import ErrorCard from "./components/ErrorCard.jsx";
 
 const App = () => {
   const initialFormData = {
@@ -20,12 +20,9 @@ const App = () => {
   const [areAllCardsMatched, setAreAllCardsMatched] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  console.log(formData);
-
   useEffect(() => {
     if (selectedCards.length === 2) {
       if (selectedCards[0].name === selectedCards[1].name) {
-        console.log("Match");
         setMatchedCards((prevMatch) => [...prevMatch, ...selectedCards]);
       }
     }
@@ -33,7 +30,6 @@ const App = () => {
 
   useEffect(() => {
     if (emojisData.length && emojisData.length === matchedCards.length) {
-      console.log("Well done, you match all cards");
       setAreAllCardsMatched(true);
     }
   }, [matchedCards]);
@@ -49,8 +45,6 @@ const App = () => {
 
   const startGame = async () => {
     try {
-      // throw new Error("Throw test error!");
-
       const response = await fetch(
         `https://emojihub.yurace.pro/api/all/category/${formData.category}`
       );
@@ -84,7 +78,7 @@ const App = () => {
   const generateRandomIndencies = () => {
     const randomIndencies = [];
     while (randomIndencies.length < formData.number / 2) {
-      const generatedNumber = Math.floor(Math.random() * 107);
+      const generatedNumber = Math.floor(Math.random() * 88);
       if (!randomIndencies.includes(generatedNumber)) {
         randomIndencies.push(generatedNumber);
       }
@@ -101,8 +95,6 @@ const App = () => {
   };
 
   const flipCard = (name, index) => {
-    // console.log(`Card with name '${name}' at index [${index}] was clicked.`);
-
     if (selectedCards.length < 2) {
       setSelectedCards((prevCard) => [...prevCard, { name, index }]);
     } else if (selectedCards.length === 2) {
